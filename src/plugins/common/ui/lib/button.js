@@ -1,6 +1,7 @@
 /**
  * NOTES:
- *    - Why do we maintain 2 references to the DOM element for a button component (this.element = this.buttonElement)?
+ *    - Why do we maintain 2 references to the DOM element for a button
+ *    component (this.element = this.buttonElement)?
  */
 
 define([

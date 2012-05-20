@@ -3,8 +3,8 @@ define([
 	'aloha/jquery',
 	'util/class',
 	'ui/container'
-], function( Aloha, jQuery, Class, Container ) {
-
+],
+function( Aloha, jQuery, Class, Container ) {
 	'use strict';
 
 	/**
@@ -46,8 +46,8 @@ define([
 		 * The range of the current selection.
 		 * 
 		 * Interacting with a surface removes focus from the editable, so the
-		 * surface is responsible for keeping track of the range that should
-		 * be modified by the components.
+		 * surface is responsible for keeping track of the range that should be
+		 * modified by the components.
 		 * 
 		 * @static
 		 * @type {Aloha.Selection}
@@ -55,12 +55,12 @@ define([
 		range: null,
 
 		/**
-		 * List of surface types. Each type must extend Surface.
+		 * List of surface types.  Each type must extend Surface.
 		 *
 		 * @static
 		 * @type {Array.<Surface>}
 		 */
-		surfaceTypes: [],
+		Types: [],
 
 		/**
 		 * Initializes the surface manager.
@@ -72,10 +72,11 @@ define([
 			Aloha.bind( 'aloha-editable-activated', function( event, alohaEvent ) {
 				Surface.active = alohaEvent.editable;
 				Surface.show( alohaEvent.editable );
+
 				// The range isn't set until after the activated event and
 				// selection-changed doesn't fire on activation.  So we
 				// "yeild."
-				setTimeout(function() {
+				setTimeout( function() {
 					Container.showContainers( Surface.active,
 						Aloha.getSelection().getRangeAt( 0 ) );
 				}, 1 );
@@ -123,11 +124,11 @@ define([
 		show: function( editable ) {
 			// If this is the first time we're showing the surfaces for this
 			// editable, then we need to initialize the surfaces first.
-			if ( !editable.surface ) {
-				this.initForEditable( editable );
+			if ( !editable.surfaces ) {
+				this.initialize( editable );
 			}
 
-			jQuery.each( editable.surface.surfaces, function( i, surface ) {
+			jQuery.each( editable.surfaces, function( i, surface ) {
 				surface.show();
 			});
 		},
@@ -138,25 +139,23 @@ define([
 		 * @param {Aloha.Editable} editable
 		 */
 		hide: function( editable ) {
-			jQuery.each( editable.surface.surfaces, function( i, surface ) {
+			jQuery.each( editable.surfaces, function( i, surface ) {
 				surface.hide();
 			});
 		},
 
 		/**
 		 * Initializes all surfaces for an editable.
+		 * @todo Rename to initialize
 		 *
 		 * @param {Aloha.Editable} editable
 		 */
-		initForEditable: function( editable ) {
-			editable.surface = {
-				surfaces: []
-			};
-
-			jQuery.each( this.surfaceTypes, function( i, surfaceType ) {
-				var surface = surfaceType.createSurface( editable );
+		initialize: function( editable ) {
+			editable.surfaces = [];
+			jQuery.each( Surface.Types, function( i, Type ) {
+				var surface = Type.createSurface( editable );
 				if ( surface ) {
-					editable.surface.surfaces.push( surface );
+					editable.surfaces.push( surface );
 				}
 			});
 		},
@@ -167,7 +166,7 @@ define([
 		 * @param {Surface} surface
 		 */
 		registerType: function( surface ) {
-			Surface.surfaceTypes.push( surface );
+			Surface.Types.push( surface );
 		},
 
 		/**

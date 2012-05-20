@@ -6,22 +6,23 @@
  * boolean; true means the container should be shown.
  *
  * For efficiency, we group all containers that have the same normalized
- * `showOn` function together, so we can evaluate it once, regardless of how
+ * `showOn()' function together, so we can evaluate it once, regardless of how
  * many containers are using the same logic. In order for this to work, the
- * exact same function must be returned from `Container.normalizeShowOn` when
+ * exact same function must be returned from `Container.normalizeShowOn()' when
  * the logic is the same.
  *
  * The list of containers is then stored on the editable instance as
- * `editable.container.groups`, which is a hash of `showOn` ids to an array of
- * containers. The `showOn` ids are unique identifiers that are stored as
- * properties of the `showOn` function (see `getShowOnId()`). This gives us
+ * `editable.containers', which is a hash of `showOn()' ids to an array of
+ * containers. The `showOn()' ids are unique identifiers that are stored as
+ * properties of the `showOn()' function (see `getShowOnId()'). This gives us
  * constant lookup times when grouping containers.
  */
 
 define([
 	'aloha/jquery',
 	'util/class'
-], function( jQuery, Class ) {
+],
+function( jQuery, Class ) {
 	'use strict';
 
 	var uid = 0;
@@ -52,10 +53,9 @@ define([
 	 */
 	function toggleContainers( containers, show ) {
 		var action = show ? 'show' : 'hide';
-		var i = containers.length;
-
-		while ( i ) {
-			containers[ --i ][ action ]();
+		var j = containers.length;
+		while ( j ) {
+			containers[ --j ][ action ]();
 		}
 	}
 
@@ -81,26 +81,21 @@ define([
 		 * @constructor
 		 */
 		_constructor: function( settings ) {
-			var group;
 			var editable = this.editable = settings.editable;
-			var containerSettings = editable.container;
-			var showOn = Container.normalizeShowOn( settings.showOn );
-			var key = getShowOnId( showOn );
 
-			if ( !containerSettings ) {
-				containerSettings = editable.container = {
-					groups: {}
-				};
+			if ( !editable.containers ) {
+				editable.containers = [];
 			}
 
-			group = containerSettings.groups[ key ];
+			var showOn = Container.normalizeShowOn( settings.showOn );
+			var key = getShowOnId( showOn );
+			var group = editable.containers[ key ];
 			if ( !group ) {
-				group = containerSettings.groups[ key ] = {
+				group = editable.containers[ key ] = {
 					shouldShow: showOn,
 					containers: []
 				};
 			}
-
 			group.containers.push( this );
 		},
 
@@ -110,17 +105,20 @@ define([
 	});
 
 	// static fields
+
 	jQuery.extend( Container, {
+
 		/**
-		 * Normalizes a showOn option into a function
+		 * Normalizes a showOn option into a function.
+		 *
 		 * @param {(string|boolean|function)} showOn
 		 * @return function
 		 */
-		normalizeShowOn: (function() {
-			var stringFns = [],
-				returnTrue = function() {
-					return true;
-				};
+		normalizeShowOn: (function(	) {
+			var stringFns = [];
+			var returnTrue = function() {
+				return true;
+			};
 
 			return function( showOn ) {
 				switch( jQuery.type( showOn ) ) {
@@ -150,20 +148,17 @@ define([
 		 * @static
 		 */
 		showContainers: function( editable, range ) {
-			var group, groupKey, show, j, element,
-				isEditingHost = GENTICS.Utils.Dom.isEditingHost,
-				// Add a null object to the elements array so that we can test whether
-				// the panel should be activated when we have no effective elements in
-				// the current selection.
-				elements = [ null ];
-
-			for ( element = range.startContainer;
-					!isEditingHost( element );
-					element = element.parentNode ) {
+			// Add a null object to the elements array so that we can test
+			// whether the panel should be activated when we have no effective
+			// elements in the current selection.
+			var elements = [ null ];
+			var element;
+			var isEditingHost = GENTICS.Utils.Dom.isEditingHost;
+			for ( element = range.startContainer; !isEditingHost( element );
+			      element = element.parentNode ) {
 				elements.push( element );
 			}
-
-			Container.showContainersForContext(editable, elements);
+			Container.showContainersForContext( editable, elements );
 		},
 
 		/**
@@ -171,37 +166,41 @@ define([
 		 *
 		 * @param {object} editable Active editable
 		 * @param {object} elements An array of elements to show containers for
-		 * @param {string} event_type Type of the event triggered (optional)
+		 * @param {string} eventType Type of the event triggered (optional)
 		 * @static
 		 */
-		showContainersForContext: function( editable, elements, event_type ) {
-			var group, groupKey, show, j, element;
-			var isEditingHost = GENTICS.Utils.Dom.isEditingHost;
-			// Add a null object to the elements array so that we can test whether
-			// the panel should be activated when we have no effective elements in
-			// the current selection.
-			var elements = elements || [ null ];
-			var container = editable.container;
-
-			if ( ! container ) {
-				// No containers were constructed for the given editable,
-				// so there is nothing for us to do.
+		showContainersForContext: function( editable, elements, eventType ) {
+			if ( ! editable.containers ) {
+				// No containers were constructed for the given editable, so
+				// there is nothing for us to do.
 				return;
 			}
 
-			for ( groupKey in container.groups ) {
-				show = false;
-				group = container.groups[ groupKey ];
+			// Add a null object to the elements array so that we can test
+			// whether the panel should be activated when we have no effective
+			// elements in the current selection.
+			var elements = elements || [ null ];
+			var element;
+			var isEditingHost = GENTICS.Utils.Dom.isEditingHost;
+			var group;
+			var groupKey;
+			var show;
+			var j;
+			var containerGroups = editable.containers;
 
-				j = elements.length;
-				while ( j ) {
-					if ( group.shouldShow( elements[ --j ], event_type ) ) {
-						show = true;
-						break;
+			for ( groupKey in containerGroups ) {
+				if ( containerGroups.hasOwnProperty( groupKey ) ) {
+					show = false;
+					group = containerGroups[ groupKey ];
+					j = elements.length;
+					while ( j ) {
+						if ( group.shouldShow( elements[ --j ], eventType ) ) {
+							show = true;
+							break;
+						}
 					}
+					toggleContainers( group.containers, show );
 				}
-
-				toggleContainers( group.containers, show );
 			}
 		}
 	});
