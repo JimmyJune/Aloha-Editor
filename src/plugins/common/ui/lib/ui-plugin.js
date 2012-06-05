@@ -17,15 +17,12 @@ define([
 	'./sidebar',
 
 	// components
-	'./abbr',
 	'./characterPicker',
 	'./cite',
-	'./format',
 	'./horizontalRule',
 	'./justify',
 	'./languageAnnotation',
 	'./link',
-	'./list',
 	'./metaview',
 	'./paragraph',
 	'./pipe'
