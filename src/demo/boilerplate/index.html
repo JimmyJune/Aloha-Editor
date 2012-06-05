@@ -58,132 +58,122 @@
 	<script>
     var Aloha = {
 			settings: {
-        toolbar: [
-          // Format Toolbar
+				// Toolbar Surface
+				toolbar: [
+					// Format Tab
 					{
 						label: "Format",
 						showOn: true,
 						components: [
-							  [ "bold", "italic", "underline", "strikethrough", "subscript", "superscript", "unorderedList", "orderedList", "link" ] 
-              , [ "justifyLeft", "justifyRight", "justifyCenter", "justifyFull", "abbr", "languageAnnotation"]
-              , [ "formatBlock" ]
+							[ "bold", "italic", "underline", "strikethrough", "subscript", "superscript", "unorderedList", "orderedList", "link" ],
+							[ "justifyLeft", "justifyRight", "justifyCenter", "justifyFull", "abbr", "languageAnnotation"],
+							[ "formatBlock" ]
 						]
 					},
-          // Insert Toolbar
+					// Insert Tab
 					{
 						label: "Insert",
 						showOn: true,
 						components: [
-							  [ "link" ]
-							, [ "abbr" ]
-              , [ "createTable" ]
+							[ "link" ],
+							[ "abbr" ],
+							[ "createTable" ]
 						]
-          },
-          // Extras Toolbar
+					}/*,
+					// Extras Tab
 					{
 						label: "Extra",
 						showOn: true,
 						components: [
-							  [ "quote" ]
-							, [ "metaview" ]
-              , [ "horizontalRule" ]
+							[ "quote" ],
+							[ "metaview" ],
+							[ "horizontalRule" ]
 						]
-          },
-
-          // Language Annotations Toolbar
-          {
-            label: "Language annotation", 
-            showOn: "*[lang]",
-            components: [ ["editLanguageAnnotation"] ]
-          },
-
-          // Abbreviation Toolbar
-          {
-            label: "Abbreviation", 
-            showOn: "abbr",
-            components: [ ["editAbbr"] ]
-          },
-
-          // Link Toolbar
-          {
-            label: "Link", 
-            showOn: "a",
-            components: [ ["editLink", "linkBrowser", "removeLink"] ]
-          },
-
-          // Cite Toolbar
-          {
-            label: "Cite", 
-            showOn: "q",
-            components: [ ["editQuote"] ]
-          },
-
-          {
-            label: "Table",
-            showOn: function(el, ev){ return ev === "table" }, 
-            components: [ [ "mergecells", "splitcells", "tableCaption", "formatTable"] ]
-          },
-
-          { 
-            label: "Column",
-            showOn: function(el, ev){ return ev === "column" }, 
-            components: [ ["addcolumnleft", "addcolumnright", "deletecolumns", "columnheader", "mergecells", "splitcells", "formatColumn"] ]
-          },
-
-          {
-            label: "Row",
-            showOn: function(el, ev){ return ev === "row" }, 
-            components: [ ["addrowbefore", "addrowafter", "deleterows", "rowheader", "mergecells", "splitcells", "formatRow"] ]
-          }
-
+					},
+					// Language Annotations Tab
+					{
+						label: "Language annotation", 
+						showOn: "*[lang]",
+						components: [ [ "editLanguageAnnotation" ] ]
+					},
+					// Abbreviation Tab
+					{
+						label: "Abbreviation", 
+						showOn: "abbr",
+						components: [ [ "editAbbr" ] ]
+					},
+					// Link Tab
+					{
+						label: "Link", 
+						showOn: "a",
+						components: [ [ "editLink", "linkBrowser", "removeLink" ] ]
+					},
+					// Cite Tab
+					{
+						label: "Cite", 
+						showOn: "q",
+						components: [ [ "editQuote" ] ]
+					},
+					// Table Tabs
+					{
+						label: "Table",
+						showOn: function(el, ev) { return ev === "table" }, 
+						components: [ [ "mergecells", "splitcells", "tableCaption", "formatTable" ] ]
+					},
+					{ 
+						label: "Column",
+						showOn: function(el, ev) { return ev === "column" }, 
+						components: [ [ "addcolumnleft", "addcolumnright", "deletecolumns", "columnheader", "mergecells", "splitcells", "formatColumn" ] ]
+					},
+					{
+						label: "Row",
+						showOn: function(el, ev) { return ev === "row" }, 
+						components: [ [ "addrowbefore", "addrowafter", "deleterows", "rowheader", "mergecells", "splitcells", "formatRow" ] ]
+					}
+					*/
 				],
+				// Sidebar Surface
+				sidebar: [
+					// Citations Panel
+					{
+						label: "Citations",
+						showOn: "q",
+						components: [ "citeDetails" ]
+					},
+					{
+						label: "Table",
+						showOn: function(el, ev) { return ev === "table" }, 
+						components: [ "tableSummary" ]
+					}
+				],
+				// Table settings
+				table: {
+					formats: {
+						table : [
+							'hor-minimalist-a',
+							'box-table-a',
+							'hor-zebra'
+						],
+						column: [ 'bigbold', 'redwhite' ],
+						row: [ 'bigbold', 'redwhite' ],
+					} 
+				},
 
-        sidebar: [
-          {
-            label: "Citations",
-            showOn: "q",
-            components: [
-              "citeDetails"
-            ]
-          },
-
-          {
-            label: "Table",
-            showOn: function(el, ev){ return ev === "table" }, 
-            components: [
-              "tableSummary"
-            ]
-          }
-        ],
-
-       // table settings
-       table : {
-        formats: {
-          table : [
-                   'hor-minimalist-a',
-                   'box-table-a',
-                   'hor-zebra'
-                   ],
-          column: ['bigbold', 'redwhite'],
-          row: ['bigbold', 'redwhite'],
-        } 
-       },
-       
-			// nativeCommands : true,
-			locale: "en"
+				// nativeCommands: true,
+				locale: "en"
 			}
 		};
 	</script>
 
 	<script src="../../lib/aloha.js"
 		data-aloha-plugins="common/ui,
-                        common/format,
-                        common/table,
-												common/list,
-												common/abbr,
-		                    extra/browser,
-                        extra/wai-lang,
-                        extra/flag-icons"></script>
+	                        common/format,
+	                        common/table,
+	                        common/list,
+	                        common/abbr,
+	                        extra/browser,
+	                        extra/wai-lang,
+	                        extra/flag-icons"></script>
 
 	<!-- script src="js/aloha-config.js"></script -->
 	<!-- script src="../../lib/aloha.js"

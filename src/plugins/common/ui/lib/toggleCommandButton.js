@@ -41,6 +41,7 @@ function( Aloha, Surface, Component, ToggleButton ) {
 		 *        this component is rendered is visible.
 		 */
 		selectionChange: function() {
+			this._super();
 			this.setState( Aloha.queryCommandState( this.command ) );
 		}
 

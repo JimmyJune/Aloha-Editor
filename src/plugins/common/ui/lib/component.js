@@ -75,7 +75,9 @@ function( Aloha, jQuery, Class ) {
 		 * Usually overridden by the component implementation or the settings
 		 * that are passed to the constructor at instantialization.
 		 */
-		selectionChange: function() {}
+		selectionChange: function() {
+			console.log('selectionChange()');	
+		}
 
 	});
 
