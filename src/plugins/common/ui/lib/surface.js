@@ -125,7 +125,7 @@ function( Aloha, jQuery, Class, Container ) {
 			// If this is the first time we're showing the surfaces for this
 			// editable, then we need to initialize the surfaces first.
 			if ( !editable.surfaces ) {
-				this.initialize( editable );
+				Surface.initialize( editable );
 			}
 
 			jQuery.each( editable.surfaces, function( i, surface ) {
