@@ -2,7 +2,7 @@ define([
 	'aloha/core',
 	'ui/surface',
 	'ui/component',
-	'ui/togglebutton'
+	'ui/toggleButton'
 ],
 function( Aloha, Surface, Component, ToggleButton ) {
 	'use strict';
