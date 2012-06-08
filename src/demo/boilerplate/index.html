@@ -13,46 +13,189 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="../../css/aloha.css" id="aloha-style-include" type="text/css">
 
+	<style>
+		/* Place the new UI toolbar somewhere where we can see it */
+		.aloha-toolbar {
+			position: fixed;
+			top: 5px;
+			left: 5px;
+			width: 700px !important;
+			z-index: 99999;
+		}
 
-	<!--
-		Load the CSS styles for Aloha Editor
-	-->
-	<link rel="stylesheet" href="../../css/aloha.css" type="text/css">
+    /* Basic Styling for Sidebar */
+    .aloha-sidebar {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      border: 1px solid #000;
+      border-width: 0 0 0 1px;
+      background-color: #fff;
+      padding: 10px;
+    }
 
-	<!--
-		All configuration for Aloha Editor for this demo is stored in js/aloha-config.js
-		It can also be placed inline here before loading Aloha Editor itself.
-	-->
-	<script src="js/aloha-config.js"></script>
+    .aloha-panel {
+      border: 1px solid #000;
+    }
 
-	<!--
-		Load the Aloha Editor library.
-		The plugin list could also be added to the configuration.
-	-->
+    .aloha-panel-title {
+      background-color: #000;
+      color: #fff;
+      padding: 5px 10px;
+    }
+
+    .aloha-panel-content {
+     padding: 5px 10px;
+    }
+	</style>
+	
+	<script>
+    var Aloha = {
+			settings: {
+				// Toolbar Surface
+				toolbar: [
+					// Format Tab
+					{
+						label: "Format",
+						showOn: true,
+						components: [
+							[ "bold", "italic", "underline", "strikethrough", "subscript", "superscript", "unorderedList", "orderedList", "link" ],
+							[ "justifyLeft", "justifyRight", "justifyCenter", "justifyFull", "abbr", "languageAnnotation"],
+							[ "formatBlock" ]
+						]
+					},
+					// Insert Tab
+					{
+						label: "Insert",
+						showOn: true,
+						components: [
+							[ "link" ],
+							[ "abbr" ],
+							[ "createTable" ]
+						]
+					}/*,
+					// Extras Tab
+					{
+						label: "Extra",
+						showOn: true,
+						components: [
+							[ "quote" ],
+							[ "metaview" ],
+							[ "horizontalRule" ]
+						]
+					},
+					// Language Annotations Tab
+					{
+						label: "Language annotation", 
+						showOn: "*[lang]",
+						components: [ [ "editLanguageAnnotation" ] ]
+					},
+					// Abbreviation Tab
+					{
+						label: "Abbreviation", 
+						showOn: "abbr",
+						components: [ [ "editAbbr" ] ]
+					},
+					// Link Tab
+					{
+						label: "Link", 
+						showOn: "a",
+						components: [ [ "editLink", "linkBrowser", "removeLink" ] ]
+					},
+					// Cite Tab
+					{
+						label: "Cite", 
+						showOn: "q",
+						components: [ [ "editQuote" ] ]
+					},
+					// Table Tabs
+					{
+						label: "Table",
+						showOn: function(el, ev) { return ev === "table" }, 
+						components: [ [ "mergecells", "splitcells", "tableCaption", "formatTable" ] ]
+					},
+					{ 
+						label: "Column",
+						showOn: function(el, ev) { return ev === "column" }, 
+						components: [ [ "addcolumnleft", "addcolumnright", "deletecolumns", "columnheader", "mergecells", "splitcells", "formatColumn" ] ]
+					},
+					{
+						label: "Row",
+						showOn: function(el, ev) { return ev === "row" }, 
+						components: [ [ "addrowbefore", "addrowafter", "deleterows", "rowheader", "mergecells", "splitcells", "formatRow" ] ]
+					}
+					*/
+				],
+				// Sidebar Surface
+				sidebar: [
+					// Citations Panel
+					{
+						label: "Citations",
+						showOn: "q",
+						components: [ "citeDetails" ]
+					},
+					{
+						label: "Table",
+						showOn: function(el, ev) { return ev === "table" }, 
+						components: [ "tableSummary" ]
+					}
+				],
+				// Table settings
+				table: {
+					formats: {
+						table : [
+							'hor-minimalist-a',
+							'box-table-a',
+							'hor-zebra'
+						],
+						column: [ 'bigbold', 'redwhite' ],
+						row: [ 'bigbold', 'redwhite' ],
+					} 
+				},
+
+				// nativeCommands: true,
+				locale: "en"
+			}
+		};
+	</script>
+
 	<script src="../../lib/aloha.js"
+		data-aloha-plugins="common/ui,
+	                        common/format,
+	                        common/table,
+	                        common/list,
+	                        common/abbr,
+	                        extra/browser,
+	                        extra/wai-lang,
+	                        extra/flag-icons"></script>
+
+	<!-- script src="js/aloha-config.js"></script -->
+	<!-- script src="../../lib/aloha.js"
 	        data-aloha-plugins="common/format,
 	                            common/table,
 	                            common/list,
 	                            common/link,
 	                            common/highlighteditables,
+	                            common/block,
 	                            common/undo,
 	                            common/contenthandler,
 	                            common/paste,
 	                            common/characterpicker,
 	                            common/commands,
-								common/image,
+								common/align,
+	                            extra/flag-icons,
 	                            common/abbr,
+	                            extra/wai-lang,
+	                            extra/numerated-headers,
+	                            extra/formatlesspaste,
 	                            extra/browser,
-	                            extra/linkbrowser,
-								extra/imagebrowser,
-	                            extra/sourceview"></script>
+	                            extra/linkbrowser"></script -->
 
-
-	<!--
-		Application specific code
-	-->
-	<link rel="stylesheet" href="css/style.css">
 	<script src="js/aloha-boilerplate.js"></script>
 </head>
 <body>

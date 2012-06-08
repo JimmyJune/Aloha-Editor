@@ -22,10 +22,11 @@ define(
 
 [
 	'aloha/jquery',
-	'aloha/pluginmanager'
+	'aloha/pluginmanager',
+	'require'
 ],
 
-function ( jQuery, PluginManager ) {
+	function ( jQuery, PluginManager, requirejs ) {
 	"use strict";
 
 	// Aloha Editor does not support Internet Explorer 6.  ExtJS style fixes for
@@ -300,12 +301,12 @@ function ( jQuery, PluginManager ) {
 
 			// register the body click event to blur editables
 			jQuery('html').mousedown(function(e) {
-				// if an Ext JS modal is visible, we don't want to loose the focus on
+				// if an Ext JS modal is visible, we don't want to lose the focus on
 				// the editable as we assume that the user must have clicked somewhere
 				// in the modal... where else could he click?
-				// loosing the editable focus in this case hinders correct table
-				// column/row deletion, as the table module will clean it's selection
-				// as soon as the editable is deactivated. Fusubscriberthermore you'd have to
+				// losing the editable focus in this case hinders correct table
+				// column/row deletion, as the table module will clean its selection
+				// as soon as the editable is deactivated. Furthermore you'd have to
 				// refocus the editable again, which is just strange UX
 				if (Aloha.activeEditable && !Aloha.isMessageVisible() && !Aloha.eventHandled) {
 					Aloha.activeEditable.blur();
@@ -536,21 +537,18 @@ function ( jQuery, PluginManager ) {
 		},
 
 		/**
-		 * Determines the Aloha Url
-		 * Uses Aloha.settings.baseUrl if set.
+		 * Gets the absolute URL of the folder that contains the aloha.js script include.
+		 *
 		 * @method
 		 * @return {String} alohaUrl
+		 *        For example http://example.com:8080/Aloha-Editor/src/lib.
 		 */
 		getAlohaUrl: function( suffix ) {
-			// aloha base path is defined by a script tag with 2 data attributes
-			var requireJs = jQuery('[data-aloha-plugins]'),
-				baseUrl = ( requireJs.length ) ? requireJs[0].src.replace( /\/?aloha.js$/ , '' ) : '';
-			
 			if ( typeof Aloha.settings.baseUrl === "string" ) {
-				baseUrl = Aloha.settings.baseUrl;
+				return Aloha.settings.baseUrl;
 			}
-			
-			return baseUrl;
+			// toUrl will return "<whatever>/src/lib/." and we strip the trailing "/."
+			return requirejs.toUrl(".").replace(/\/\.$/, "");
 		},
 
 		/**

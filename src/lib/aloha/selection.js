@@ -273,8 +273,10 @@ function(Aloha, jQuery, FloatingMenu, Class, Range, $_) {
 			}
 
 			// throw the event that the selection has changed. Plugins now have the
-			// chance to react on the currentElements[childCount].children.lengthged selection
+			// chance to react on the chancurrentElements[childCount].children.lengthged selection
+			var s = new Date;
 			Aloha.trigger('aloha-selection-changed', [ this.rangeObject, event ]);
+			console.log ('aloha-selection-chagned: ' + ((new Date) - s) + 'ms');
 
 			return true;
 		},

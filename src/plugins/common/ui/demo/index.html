@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Aloha Editor UI Prototype</title>
+	<style>
+	.aloha-toolbar {
+		border: 1px solid black;
+	}
+	.aloha-button-on {
+		background-color: green;
+	}
+	</style>
+	<script>
+	var Aloha = {
+		settings: {
+			toolbar: [
+				{
+					label: "Tab <i>on italic</i>",
+					showOn: "i",
+					components: [
+						[ "bold" ],
+						[ "italic", "italic" ]
+					]
+				},
+				{
+					label: "Tab <b>on bold</b>",
+					showOn: "b",
+					components: [
+						[ "italic" ],
+						[ "bold", "bold" ]
+					]
+				},
+				{
+					label: "Another Tab",
+					showOn: true,
+					components: [ [ "bold", "italic" ], [ "formatBlock" ] ]
+				}
+			],
+			//nativeCommands : true,
+			locale: "en"
+		}
+	};
+	</script>
+	<script src="../../../../lib/aloha.js" data-aloha-plugins="common/ui,extra/browser,extra/wai-lang,extra/flag-icons"></script>
+	<script>
+	Aloha.ready( function() {
+		var $ = Aloha.jQuery;
+		$( "#main" ).aloha({
+			toolbar: [
+				{
+					label: 'Formatting',
+					showOn: true,
+					components: [
+						[ "bold", "italic", "underline", "pipe", "strikethrough", "pipe", "subscript", "superscript", "metaview" ],
+						[ "orderedList", "unorderedList", "indentList", "outdentList", "pipe", "formatBlock" ],
+						[ "link", "editLink", "removeLink", "linkBrowser", "pipe", "abbr", "editAbbr", "pipe",
+							"languageAnnotation", "editLanguageAnnotation", "languageBrowser", "pipe", "quote", "editQuote" ]
+					]
+				},
+				{
+					label: 'Lists',
+					showOn: 'ul,ol,*.parent(.aloha-editable ul, .aloha-editable ol)',
+					components: [
+						[ "orderedList", "unorderedList", "pipe", "indentList", "outdentList" ]
+					]
+				},
+			],
+			sidebar: [
+				{
+					label: "Link",
+					showOn: "a",
+					components: [
+						"linkPanel"
+					]
+				},
+				{
+					label: "Citations",
+					components: [ "citeDetails" ]
+				}
+			],
+			formatBlock: {
+				blocks: [ "pre", "h1", "p", "h2", "h3", "blockquote" ],
+				removeFormatting: [ "b", "strong" ]
+			},
+			cite: {
+				referenceContainer: "#references"
+			}
+		});
+		$( "#uhoh" ).aloha();
+	});
+	</script>
+</head>
+<body>
+
+<p>not editable</p>
+
+<div id="main" contenteditable>
+<p>This is just a <strong>prototype</strong>.</p>
+<p>Trying to make <a href="http://aloha-editor.org">Aloha Editor</a> even more <abbr title="amazing">awesome</abbr>!</p>
+</div>
+
+<div id="uhoh" contenteditable>
+<p>More than one instance...</p>
+<p>This <b>is</b> <i>gonna</i> be <i><b>trouble!</b></i></p>
+</div>
+
+<div id="references"></div>
+
+</body>
+</html>

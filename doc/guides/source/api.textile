@@ -53,7 +53,7 @@ Aloha.settings.ui.component = { name: value };
 Further more every editable may have its own settings which you may pass as argument to the +$('selector').aloha(settings)+ method. 
 
 <javascript>
-$('.editable).aloha( { UI.component: { name: value } } );
+$('.editable').aloha( { UI.component: { name: value } } );
 </javascript>
 
 

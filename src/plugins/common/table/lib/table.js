@@ -1349,6 +1349,9 @@ define( [
 			columnsToSelect = this.columnsToSelect;
 		}
 
+		//Aloha.trigger( 'aloha-column-selected' );
+
+    /*
 		// ====== BEGIN UI specific code - should be handled on event aloha-table-selection-changed by UI =======
 		// activate all column formatting button
 		for ( var i = 0; i < this.tablePlugin.columnMSItems.length; i++ ) {
@@ -1371,6 +1374,7 @@ define( [
 		}
 
 		// ====== END UI specific code - should be handled by UI =======
+    */
 
 		// blur all editables within the table
 		this.obj.find('div.aloha-ui-table-cell-editable').blur();
@@ -1394,10 +1398,12 @@ define( [
 		//    // unselect selected cells
 		//    TableSelection.unselectCells();
 		
+    /* Note: Commented for refactor 
 		// activate all row formatting button
 		for (var i = 0; i < this.tablePlugin.rowMSItems.length; i++ ) {
 			this.tablePlugin.rowMSButton.showItem(this.tablePlugin.rowMSItems[i].name);
 		}
+    */
 		
 		//    this.rowsToSelect.sort(function (a,b) {return a - b;});
 
@@ -1429,6 +1435,7 @@ define( [
 				////          jQuery(rowCells[1]).attr('scope') == 'col'
 				//        );
 
+        /* Note: Commented for Refactoring
 				// set the first class found as active item in the multisplit button
 				for (var j = 0; j < rowCells.length; j++) {
 					this.tablePlugin.rowMSButton.setActiveItem();
@@ -1439,6 +1446,7 @@ define( [
 						}
 					}
 				}
+        */
 			}
 
 			//      // shift the first element (which is a selection-helper cell)
@@ -1450,10 +1458,12 @@ define( [
 		}
 		
 		//    TableSelection.selectionType = 'row';
-		FloatingMenu.setScope(this.tablePlugin.name + '.row');
+		// Note: Commented for rafactoring (remove)
+    //FloatingMenu.setScope(this.tablePlugin.name + '.row');
 		
 		this.selection.selectRows( this.rowsToSelect );
-		this.tablePlugin.columnHeader.setPressed( this.selection.isHeader() );
+    // Note: Commented for refactoring
+		// this.tablePlugin.columnHeader.setPressed( this.selection.isHeader() );
 
 		// blur all editables within the table
 		this.obj.find('div.aloha-ui-table-cell-editable').blur();

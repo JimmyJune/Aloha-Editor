@@ -65,6 +65,11 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 	var CommandManager = {
 			
 		execCommand: function( commandId, showUi, value, range ) {
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.execCommand(commandId, showUi, value);
+			}
+			
 			var evtObj = {
 				commandId: commandId,
 				preventDefault: false
@@ -74,6 +79,7 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 			if (evtObj.preventDefault === true) {
 				return;
 			}
+
 			// Read current selection if not passed
 			if ( !range ) {
 				if ( !Aloha.getSelection().getRangeCount() ) {
@@ -116,7 +122,12 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 		// If command is available and not disabled or the active range is not null 
 		// the command is enabled
 		queryCommandEnabled: function( commandId, range ) {
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.queryCommandEnabled(commandId);
+			}
 
+			
 			// Take current selection if not passed
 			if ( !range ) {
 				if ( !Aloha.getSelection().getRangeCount() ) {
@@ -129,7 +140,11 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 
 		// "Return true if command is indeterminate, otherwise false."
 		queryCommandIndeterm: function( commandId, range ) {
-
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.queryCommandIndeterm(commandId);
+			}
+			
 			// Take current selection if not passed
 			if ( !range ) {
 				if ( !Aloha.getSelection().getRangeCount() ) {
@@ -142,7 +157,11 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 		},
 		
 		queryCommandState: function( commandId, range ) {
-
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.queryCommandState(commandId);
+			}
+			
 			// Take current selection if not passed
 			if ( !range ) {
 				if ( !Aloha.getSelection().getRangeCount() ) {
@@ -158,11 +177,19 @@ function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 		// interface is invoked, the user agent must return true if command is
 		// supported, and false otherwise."
 		queryCommandSupported: function( commandId ) {
-
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.queryCommandSupported(commandId);
+			}
+			
 			return Engine.queryCommandSupported( commandId );		
 		},
 		
 		queryCommandValue: function( commandId, range ) {
+			// native command fallback
+			if (Aloha.settings.nativeCommands === true) {
+				return document.queryCommandValue(commandId);
+			}
 
 			// Take current selection if not passed
 			if ( !range ) {

@@ -478,7 +478,7 @@ function(Aloha, jQuery, Ext, Class, console) {
 		 * @hide
 		 */
 		init: function() {
-
+			return; // Don't initialize the floating menu in jQuery UI branch
 			// check for behaviour setting of the floating menu
 		    if ( Aloha.settings.floatingmenu ) {
 		    	if ( typeof Aloha.settings.floatingmenu.draggable ===
@@ -1240,6 +1240,10 @@ function(Aloha, jQuery, Ext, Class, console) {
 		 * @param {String} scope name of the new current scope
 		 */
 		setScope: function(scope) {
+			// Petro: prevent current scope changes as we move to deprecate
+			// scopes all together.
+			return;
+
 			// get the scope object
 			var scopeObject = this.scopes[scope];
 

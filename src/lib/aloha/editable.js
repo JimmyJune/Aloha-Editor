@@ -58,6 +58,23 @@ define( [
 
 	var contentSerializer = defaultContentSerializer;
 
+	// deep extend objects, but not arrays
+	function extend(a, b) {
+		for (var prop in b) {
+			// deep extend objects
+			if (jQuery.isPlainObject(b[prop])) {
+				a[prop] = extend(a[prop] || {}, b[prop]);
+			// clone arrays, don't reference the originals
+			} else if (jQuery.isArray(b[prop])) {
+				a[prop] = b[prop].slice();
+			// copy other properties directly
+			} else {
+				a[prop] = b[prop];
+			}
+		}
+		return a;
+	}
+
 	/**
 	 * Editable object
 	 * @namespace Aloha
@@ -66,9 +83,10 @@ define( [
 	 * @constructor
 	 * @param {Object} obj jQuery object reference to the object
 	 */
-	Aloha.Editable = Class.extend( {
+	Aloha.Editable = Class.extend({
+		_constructor: function(obj, settings) {
+			var me = this;
 
-		_constructor: function( obj ) {
 			// check wheter the object has an ID otherwise generate and set
 			// globally unique ID
 			if ( !obj.attr( 'id' ) ) {
@@ -133,7 +151,7 @@ define( [
 
 			Aloha.registerEditable( this );
 
-			this.init();
+			this.init(settings);
 		},
 
 		/**
@@ -141,12 +159,11 @@ define( [
 		 * @return void
 		 * @hide
 		 */
-		init: function() {
+		init: function(settings){
 			var me = this;
 
-			// TODO make editables their own settings.
-			this.settings = Aloha.settings;
-
+			this.settings = extend(extend({}, Aloha.settings), settings);
+			
 			// smartContentChange settings
 			// @TODO move to new config when implemented in Aloha
 			if ( Aloha.settings && Aloha.settings.smartContentChange ) {
