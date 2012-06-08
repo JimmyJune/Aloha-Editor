@@ -43,9 +43,9 @@ define( [
 	'aloha/jquery-ui',
 	'order!css!browser/css/browsercombined.css',
 	// 'jquery-plugin!browser/vendor/grid.locale.en.js', // we use 'browser/locale' instead
-	'jquery-plugin!browser/vendor/ui-layout',
-	'jquery-plugin!browser/vendor/jquery.jqGrid',
-	'jquery-plugin!browser/vendor/jquery.jstree'
+	'browser/vendor/ui-layout',
+	'browser/vendor/jquery.jqGrid',
+	'browser/vendor/jquery.jstree'
 	
 ], function ( jQuery, Class, i18n, Console ) {
 'use strict';
