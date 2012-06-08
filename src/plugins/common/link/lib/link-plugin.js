@@ -663,20 +663,8 @@ define( [
 			// clear the current item from the href field
 			this.hrefField.setItem(null);
 			if ( foundMarkup ) {
-
-        var active_element = jQuery( foundMarkup );
-
-        //remove empty attributes
-        for(var i = 0; i < active_element[0].attributes.length; i++){
-          window.console.log(cur_attr);
-          var cur_attr = active_element[0].attributes[i];
-          if(cur_attr.specified && (cur_attr.name === "class" || cur_attr.name === "title" || cur_attr.name === "target")){
-             active_element.removeAttr(cur_attr.name); 
-          }
-        }
-
-        //unlink using the command
-        Aloha.execCommand('unlink', false);
+				//unlink using the command
+				Aloha.execCommand('unlink', false);
 
 				range.startContainer = range.endContainer;
 				range.startOffset = range.endOffset;
